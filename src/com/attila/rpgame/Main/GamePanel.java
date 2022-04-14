@@ -19,23 +19,19 @@ import com.attila.rpgame.Manager.Keys;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, KeyListener {
-	
-	// dimensions
-	// HEIGHT is the playing area size
-	// HEIGHT2 includes the bottom window
-	public static final int WIDTH = 128;
-	public static final int HEIGHT = 128;
-	public static final int HEIGHT2 = HEIGHT + 16;
-	public static final int SCALE = 5;
-	
-	// game loop stuff
+
+	//Ablak méretének megadása
+	public static final int SZELESSEG = 128;
+	public static final int MAGAS = 128;
+	public static final int MAGASSAG = MAGAS + 16;
+	public static final int MERETEZES = 5;
+
 	private Thread thread;
-	private boolean running;
 	private final int FPS = 35;
-	private final int TARGET_TIME = 1000 / FPS;
-	
-	// drawing stuff
-	private BufferedImage image;
+	private final int IDOEGYSEG = 1000 / FPS;
+
+	// Rajzoláshoz szükséges elemek
+	private BufferedImage rajzfelulet;
 	private Graphics2D g;
 	
 	// game state manager
@@ -43,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	// constructor
 	public GamePanel() {
-		setPreferredSize(new Dimension(WIDTH * SCALE, HEIGHT2 * SCALE));
+		setPreferredSize(new Dimension(SZELESSEG * MERETEZES, MAGASSAG * MERETEZES));
 		setFocusable(true);
 		requestFocus();
 	}
@@ -68,7 +64,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		long wait;
 		
 		// game loop
-		while(running) {
+		while(true) {
 			
 			start = System.nanoTime();
 			
@@ -77,9 +73,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			drawToScreen();
 			
 			elapsed = System.nanoTime() - start;
-			
-			wait = TARGET_TIME - elapsed / 1000000;
-			if(wait < 0) wait = TARGET_TIME;
+
+			wait = IDOEGYSEG - elapsed / 1000000;
+			if(wait < 0) wait = IDOEGYSEG;
 			
 			try {
 				Thread.sleep(wait);
@@ -94,9 +90,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	// initializes fields
 	private void init() {
-		running = true;
-		image = new BufferedImage(WIDTH, HEIGHT2, 1);
-		g = (Graphics2D) image.getGraphics();
+		rajzfelulet = new BufferedImage(SZELESSEG, MAGASSAG, 1);
+		g = (Graphics2D) rajzfelulet.getGraphics();
 		gsm = new GameStateManager();
 	}
 	
@@ -114,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// copy buffer to screen
 	private void drawToScreen() {
 		Graphics g2 = getGraphics();
-		g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT2 * SCALE, null);
+		g2.drawImage(rajzfelulet, 0, 0, SZELESSEG * MERETEZES, MAGASSAG * MERETEZES, null);
 		g2.dispose();
 	}
 	

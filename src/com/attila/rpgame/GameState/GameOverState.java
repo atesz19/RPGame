@@ -44,7 +44,7 @@ public class GameOverState extends GameState {
 	public void draw(Graphics2D g) {
 		
 		g.setColor(color);
-		g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT2);
+		g.fillRect(0, 0, GamePanel.SZELESSEG, GamePanel.MAGASSAG);
 		
 		Content.drawString(g, "finish time", 20, 36);
 		

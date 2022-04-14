@@ -35,7 +35,7 @@ public class Hud {
 		
 		player = p;
 		numDiamonds = d.size();
-		yoffset = GamePanel.HEIGHT;
+		yoffset = GamePanel.MAGAS;
 		
 		bar = Content.BAR[0][0];
 		diamond = Content.DIAMOND[0][0];

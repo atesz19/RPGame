@@ -83,7 +83,7 @@ public class PlayState extends GameState {
 		player.setTotalDiamonds(diamonds.size());
 		
 		// set up camera position
-		sectorSize = GamePanel.WIDTH;
+		sectorSize = GamePanel.SZELESSEG;
 		xsector = player.getx() / sectorSize;
 		ysector = player.gety() / sectorSize;
 		tileMap.setPositionImmediately(-xsector * sectorSize, -ysector * sectorSize);
@@ -332,7 +332,7 @@ public class PlayState extends GameState {
 		if(eventTick == 1) {
 			boxes.clear();
 			for(int i = 0; i < 9; i++) {
-				boxes.add(new Rectangle(0, i * 16, GamePanel.WIDTH, 16));
+				boxes.add(new Rectangle(0, i * 16, GamePanel.SZELESSEG, 16));
 			}
 		}
 		if(eventTick > 1 && eventTick < 32) {
@@ -358,8 +358,8 @@ public class PlayState extends GameState {
 		if(eventTick == 1) {
 			boxes.clear();
 			for(int i = 0; i < 9; i++) {
-				if(i % 2 == 0) boxes.add(new Rectangle(-128, i * 16, GamePanel.WIDTH, 16));
-				else boxes.add(new Rectangle(128, i * 16, GamePanel.WIDTH, 16));
+				if(i % 2 == 0) boxes.add(new Rectangle(-128, i * 16, GamePanel.SZELESSEG, 16));
+				else boxes.add(new Rectangle(128, i * 16, GamePanel.SZELESSEG, 16));
 			}
 			JukeBox.stop("music1");
 			JukeBox.play("finish");

@@ -51,8 +51,8 @@ public class TileMap {
 	
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
-		numRowsToDraw = GamePanel.HEIGHT / tileSize + 2;
-		numColsToDraw = GamePanel.WIDTH / tileSize + 2;
+		numRowsToDraw = GamePanel.MAGAS / tileSize + 2;
+		numColsToDraw = GamePanel.SZELESSEG / tileSize + 2;
 		speed = 4;
 	}
 	
@@ -106,10 +106,10 @@ public class TileMap {
 			width = numCols * tileSize;
 			height = numRows * tileSize;
 			
-			xmin = GamePanel.WIDTH - width;
+			xmin = GamePanel.SZELESSEG - width;
 			xmin = -width;
 			xmax = 0;
-			ymin = GamePanel.HEIGHT - height;
+			ymin = GamePanel.MAGAS - height;
 			ymin = -height;
 			ymax = 0;
 			
