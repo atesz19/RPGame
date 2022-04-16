@@ -8,10 +8,10 @@ package com.attila.rpgame.Manager;
 
 import java.awt.Graphics2D;
 
-import com.attila.rpgame.GameState.GameOverState;
-import com.attila.rpgame.GameState.GameState;
-import com.attila.rpgame.GameState.PauseState;
-import com.attila.rpgame.GameState.PlayState;
+import com.attila.rpgame.States.OverState;
+import com.attila.rpgame.States.GameState;
+import com.attila.rpgame.States.PauseState;
+import com.attila.rpgame.States.PlayState;
 
 
 public class GameStateManager {
@@ -49,7 +49,7 @@ public class GameStateManager {
 			gameStates[i].init();
 		}
 		else if(i == GAMEOVER) {
-			gameStates[i] = new GameOverState(this);
+			gameStates[i] = new OverState(this);
 			gameStates[i].init();
 		}
 	}

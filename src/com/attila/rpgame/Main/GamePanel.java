@@ -20,7 +20,6 @@ import com.attila.rpgame.Manager.Keys;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
-	//Ablak méretének megadása
 	public static final int SZELESSEG = 128;
 	public static final int MAGAS = 128;
 	public static final int MAGASSAG = MAGAS + 16;
@@ -30,21 +29,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	private final int FPS = 35;
 	private final int IDOEGYSEG = 1000 / FPS;
 
-	// Rajzoláshoz szükséges elemek
 	private BufferedImage rajzfelulet;
 	private Graphics2D g;
-	
-	// game state manager
+
 	private GameStateManager gsm;
-	
-	// constructor
+
 	public GamePanel() {
 		setPreferredSize(new Dimension(SZELESSEG * MERETEZES, MAGASSAG * MERETEZES));
 		setFocusable(true);
 		requestFocus();
 	}
-	
-	// ready to display
+
 	public void addNotify() {
 		super.addNotify();
 		if(thread == null) {
@@ -53,24 +48,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 			thread.start();
 		}
 	}
-	
-	// run new thread
+
 	public void run() {
-		
-		init();
+
+		rajzfelulet = new BufferedImage(SZELESSEG, MAGASSAG, 1);
+		g = (Graphics2D) rajzfelulet.getGraphics();
+		gsm = new GameStateManager();
 		
 		long start;
 		long elapsed;
 		long wait;
 		
-		// game loop
+		// játék loop
 		while(true) {
 			
 			start = System.nanoTime();
-			
-			update();
-			draw();
-			drawToScreen();
+			// játék frissítése
+			gsm.update();
+			Keys.update();
+			// játék rajzolása
+			gsm.draw(g);
+			// megjelenítás a képernyőn
+			Graphics g2 = getGraphics();
+			g2.drawImage(rajzfelulet, 0, 0, SZELESSEG * MERETEZES, MAGASSAG * MERETEZES, null);
+			g2.dispose();
 			
 			elapsed = System.nanoTime() - start;
 
@@ -87,33 +88,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		}
 		
 	}
+
 	
-	// initializes fields
-	private void init() {
-		rajzfelulet = new BufferedImage(SZELESSEG, MAGASSAG, 1);
-		g = (Graphics2D) rajzfelulet.getGraphics();
-		gsm = new GameStateManager();
-	}
-	
-	// updates game
-	private void update() {
-		gsm.update();
-		Keys.update();
-	}
-	
-	// draws game
-	private void draw() {
-		gsm.draw(g);
-	}
-	
-	// copy buffer to screen
-	private void drawToScreen() {
-		Graphics g2 = getGraphics();
-		g2.drawImage(rajzfelulet, 0, 0, SZELESSEG * MERETEZES, MAGASSAG * MERETEZES, null);
-		g2.dispose();
-	}
-	
-	// key event
+	// Billentyűzet eventek
 	public void keyTyped(KeyEvent key) {}
 	public void keyPressed(KeyEvent key) {
 		Keys.keySet(key.getKeyCode(), true);

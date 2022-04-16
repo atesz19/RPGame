@@ -7,7 +7,7 @@
 // Under four minutes = Beginner
 // Four minutes or greater = Bumbling Idiot
 
-package com.attila.rpgame.GameState;
+package com.attila.rpgame.States;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -19,14 +19,14 @@ import com.attila.rpgame.Manager.GameStateManager;
 import com.attila.rpgame.Manager.JukeBox;
 import com.attila.rpgame.Manager.Keys;
 
-public class GameOverState extends GameState {
+public class OverState extends GameState {
 	
 	private Color color;
 	
 	private int rank;
 	private long ticks;
 	
-	public GameOverState(GameStateManager gsm) {
+	public OverState(GameStateManager gsm) {
 		super(gsm);
 	}
 	

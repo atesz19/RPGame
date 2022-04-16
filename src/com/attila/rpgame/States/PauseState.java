@@ -1,7 +1,7 @@
 // The pause GameState can only be activated
 // by calling GameStateManager#setPaused(true).
 
-package com.attila.rpgame.GameState;
+package com.attila.rpgame.States;
 
 import java.awt.Graphics2D;
 

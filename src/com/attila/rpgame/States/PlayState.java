@@ -3,7 +3,7 @@
 // Player, TileMap, Diamonds, etc.
 // Updates and draws all game objects.
 
-package com.attila.rpgame.GameState;
+package com.attila.rpgame.States;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
