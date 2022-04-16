@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import com.attila.rpgame.Entity.Diamond;
+import com.attila.rpgame.Entity.Coin;
 import com.attila.rpgame.Entity.Item;
 import com.attila.rpgame.Entity.Player;
 import com.attila.rpgame.Entity.Sparkle;
@@ -22,31 +22,25 @@ import com.attila.rpgame.Manager.Keys;
 import com.attila.rpgame.TileMap.TileMap;
 
 public class PlayState extends GameState {
-	
-	// player
+
 	private Player player;
-	
-	// tilemap
+
 	private TileMap tileMap;
-	
-	// diamonds
-	private ArrayList<Diamond> diamonds;
-	
-	// items
+
+	private ArrayList<Coin> coins;
+
 	private ArrayList<Item> items;
-	
-	// sparkles
+
 	private ArrayList<Sparkle> sparkles;
 	
-	// camera position
+	// kamera pizíció
 	private int xsector;
 	private int ysector;
 	private int sectorSize; 
-	
-	// hud
+
 	private Hud hud;
 	
-	// events
+	// események
 	private boolean blockInput;
 	private boolean eventStart;
 	private boolean eventFinish;
@@ -62,7 +56,7 @@ public class PlayState extends GameState {
 	public void init() {
 		
 		// create lists
-		diamonds = new ArrayList<Diamond>();
+		coins = new ArrayList<Coin>();
 		sparkles = new ArrayList<Sparkle>();
 		items = new ArrayList<Item>();
 		
@@ -75,12 +69,12 @@ public class PlayState extends GameState {
 		player = new Player(tileMap);
 		
 		// fill lists
-		populateDiamonds();
+		populateCoins();
 		populateItems();
 		
 		// initialize player
 		player.setTilePosition(17, 17);
-		player.setTotalDiamonds(diamonds.size());
+		player.setTotalDiamonds(coins.size());
 		
 		// set up camera position
 		sectorSize = GamePanel.SZELESSEG;
@@ -89,13 +83,13 @@ public class PlayState extends GameState {
 		tileMap.setPositionImmediately(-xsector * sectorSize, -ysector * sectorSize);
 		
 		// load hud
-		hud = new Hud(player, diamonds);
+		hud = new Hud(player, coins);
 		
 		// load music
-		JukeBox.load("/Music/bgmusic.mp3", "music1");
+		JukeBox.load("/Music/hatterzene.wav", "music1");
 		JukeBox.setVolume("music1", -10);
 		JukeBox.loop("music1", 1000, 1000, JukeBox.getFrames("music1") - 1000);
-		JukeBox.load("/Music/finish.mp3", "finish");
+		JukeBox.load("/Music/befejez.wav", "finish");
 		JukeBox.setVolume("finish", -10);
 		
 		// load sfx
@@ -111,62 +105,62 @@ public class PlayState extends GameState {
 			
 	}
 	
-	private void populateDiamonds() {
+	private void populateCoins() {
 		
-		Diamond d;
+		Coin coin;
 		
-		d = new Diamond(tileMap);
-		d.setTilePosition(20, 20);
-		d.addChange(new int[] { 23, 19, 1 });
-		d.addChange(new int[] { 23, 20, 1 });
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(12, 36);
-		d.addChange(new int[] { 31, 17, 1 });
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(28, 4);
-		d.addChange(new int[] {27, 7, 1});
-		d.addChange(new int[] {28, 7, 1});
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(4, 34);
-		d.addChange(new int[] { 31, 21, 1 });
-		diamonds.add(d);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(20, 20);
+		coin.addChange(new int[] { 23, 19, 1 });
+		coin.addChange(new int[] { 23, 20, 1 });
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(12, 36);
+		coin.addChange(new int[] { 31, 17, 1 });
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(28, 4);
+		coin.addChange(new int[] {27, 7, 1});
+		coin.addChange(new int[] {28, 7, 1});
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(4, 34);
+		coin.addChange(new int[] { 31, 21, 1 });
+		coins.add(coin);
 		
-		d = new Diamond(tileMap);
-		d.setTilePosition(28, 19);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(35, 26);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(38, 36);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(27, 28);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(20, 30);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(14, 25);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(4, 21);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(9, 14);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(4, 3);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(20, 14);
-		diamonds.add(d);
-		d = new Diamond(tileMap);
-		d.setTilePosition(13, 20);
-		diamonds.add(d);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(28, 19);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(35, 26);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(38, 36);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(27, 28);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(20, 30);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(14, 25);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(4, 21);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(9, 14);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(4, 3);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(20, 14);
+		coins.add(coin);
+		coin = new Coin(tileMap);
+		coin.setTilePosition(13, 20);
+		coins.add(coin);
 		
 	}
 	
@@ -216,20 +210,20 @@ public class PlayState extends GameState {
 		// update player
 		player.update();
 		
-		// update diamonds
-		for(int i = 0; i < diamonds.size(); i++) {
+		// update coins
+		for(int i = 0; i < coins.size(); i++) {
 			
-			Diamond d = diamonds.get(i);
+			Coin d = coins.get(i);
 			d.update();
 			
 			// player collects diamond
 			if(player.intersects(d)) {
 				
 				// remove from list
-				diamonds.remove(i);
+				coins.remove(i);
 				i--;
 				
-				// increment amount of collected diamonds
+				// increment amount of collected coins
 				player.collectedDiamond();
 				
 				// play collect sound
@@ -286,8 +280,8 @@ public class PlayState extends GameState {
 		// draw player
 		player.draw(g);
 		
-		// draw diamonds
-		for(Diamond d : diamonds) {
+		// draw coins
+		for(Coin d : coins) {
 			d.draw(g);
 		}
 		

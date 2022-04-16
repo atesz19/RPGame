@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import com.attila.rpgame.Entity.Diamond;
+import com.attila.rpgame.Entity.Coin;
 import com.attila.rpgame.Entity.Player;
 import com.attila.rpgame.Main.GamePanel;
 import com.attila.rpgame.Manager.Content;
@@ -31,7 +31,7 @@ public class Hud {
 	private Font font;
 	private Color textColor; 
 	
-	public Hud(Player p, ArrayList<Diamond> d) {
+	public Hud(Player p, ArrayList<Coin> d) {
 		
 		player = p;
 		numDiamonds = d.size();

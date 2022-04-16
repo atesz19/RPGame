@@ -1,4 +1,4 @@
-// Diamond class.
+// Coin class.
 // May contain a list of tileChanges.
 // These tileChanges are used to modify
 // the tile map upon collection.
@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import com.attila.rpgame.Manager.Content;
 import com.attila.rpgame.TileMap.TileMap;
 
-public class Diamond extends Entity {
+public class Coin extends Entity {
 	
 	BufferedImage[] sprites;
 	
 	private ArrayList<int[]> tileChanges;
 	
-	public Diamond(TileMap tm) {
+	public Coin(TileMap tm) {
 		
 		super(tm);
 		
