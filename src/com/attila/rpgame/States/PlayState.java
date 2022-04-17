@@ -24,29 +24,23 @@ import com.attila.rpgame.TileMap.TileMap;
 public class PlayState extends GameState {
 
 	private Player player;
-
 	private TileMap tileMap;
-
-	private ArrayList<Coin> coins;
-
-	private ArrayList<Item> items;
-
-	private ArrayList<Sparkle> sparkles;
+	private ArrayList<Coin> coins = new ArrayList<Coin>();
+	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<Sparkle> sparkles = new ArrayList<Sparkle>();
+	private Hud hud;
 	
 	// kamera pizíció
 	private int xsector;
 	private int ysector;
-	private int sectorSize; 
-
-	private Hud hud;
+	private int sectorSize;
 	
 	// események
 	private boolean blockInput;
 	private boolean eventStart;
-	private boolean eventFinish;
 	private int eventTick;
-	
-	// transition box
+
+	// Játék elején lévő effekt
 	private ArrayList<Rectangle> boxes;
 	
 	public PlayState(GameStateManager gsm) {
@@ -54,51 +48,45 @@ public class PlayState extends GameState {
 	}
 	
 	public void init() {
-		
-		// create lists
-		coins = new ArrayList<Coin>();
-		sparkles = new ArrayList<Sparkle>();
-		items = new ArrayList<Item>();
-		
-		// load map
+
+		// pálya betöltése
 		tileMap = new TileMap(16);
 		tileMap.loadTiles("/Tilesets/testtileset.gif");
 		tileMap.loadMap("/Maps/testmap.map");
 		
-		// create player
+		// játékos létrehozása
 		player = new Player(tileMap);
 		
-		// fill lists
+		// tárgyak és érmék elhelyezése
 		populateCoins();
 		populateItems();
 		
-		// initialize player
+		// játékos elhelyezése
 		player.setTilePosition(17, 17);
 		player.setTotalDiamonds(coins.size());
 		
-		// set up camera position
+		// kamera pizíció
 		sectorSize = GamePanel.SZELESSEG;
 		xsector = player.getx() / sectorSize;
 		ysector = player.gety() / sectorSize;
 		tileMap.setPositionImmediately(-xsector * sectorSize, -ysector * sectorSize);
-		
-		// load hud
+
 		hud = new Hud(player, coins);
 		
-		// load music
+		// zene betöltése
 		JukeBox.load("/Music/hatterzene.wav", "music1");
 		JukeBox.setVolume("music1", -10);
 		JukeBox.loop("music1", 1000, 1000, JukeBox.getFrames("music1") - 1000);
 		JukeBox.load("/Music/befejez.wav", "finish");
 		JukeBox.setVolume("finish", -10);
 		
-		// load sfx
+		// hangok betöltése
 		JukeBox.load("/SFX/collect.wav", "collect");
 		JukeBox.load("/SFX/mapmove.wav", "mapmove");
 		JukeBox.load("/SFX/tilechange.wav", "tilechange");
 		JukeBox.load("/SFX/splash.wav", "splash");
 		
-		// start event
+		// event elindítása
 		boxes = new ArrayList<Rectangle>();
 		eventStart = true;
 		eventStart();
@@ -182,71 +170,65 @@ public class PlayState extends GameState {
 	
 	public void update() {
 		
-		// check keys
+		// billentyűzet figyelése
 		handleInput();
 		
-		// check events
-		if(eventStart) eventStart();
-		if(eventFinish) eventFinish();
-		
+		// eventek figyelése
 		if(player.numDiamonds() == player.getTotalDiamonds()) {
-			eventFinish = blockInput = true;
+			eventFinish();
 		}
-		
-		// update camera
+
+		if(eventStart) eventStart();
+
+		// kamera
 		int oldxs = xsector;
 		int oldys = ysector;
 		xsector = player.getx() / sectorSize;
 		ysector = player.gety() / sectorSize;
 		tileMap.setPosition(-xsector * sectorSize, -ysector * sectorSize);
 		tileMap.update();
-		
+
 		if(oldxs != xsector || oldys != ysector) {
 			JukeBox.play("mapmove");
 		}
-		
+
 		if(tileMap.isMoving()) return;
-		
-		// update player
+
 		player.update();
-		
-		// update coins
+
 		for(int i = 0; i < coins.size(); i++) {
-			
 			Coin d = coins.get(i);
 			d.update();
-			
-			// player collects diamond
+
 			if(player.intersects(d)) {
 				
-				// remove from list
+				// felvett érme törlése a listából
 				coins.remove(i);
 				i--;
-				
-				// increment amount of collected coins
+
+				// összegyűjtött érmék számának növelése
 				player.collectedDiamond();
 				
-				// play collect sound
-				JukeBox.play("collect");
-				
-				// add new sparkle
+				// új effekt hozzáadása
 				Sparkle s = new Sparkle(tileMap);
 				s.setPosition(d.getx(), d.gety());
 				sparkles.add(s);
 				
-				// make any changes to tile map
+				// pálya változások
 				ArrayList<int[]> ali = d.getChanges();
 				for(int[] j : ali) {
 					tileMap.setTile(j[0], j[1], j[2]);
 				}
 				if(ali.size() != 0) {
 					JukeBox.play("tilechange");
+				} else {
+					JukeBox.play("collect");
 				}
 				
 			}
 		}
 		
-		// update sparkles
+		// effektek frissítése
 		for(int i = 0; i < sparkles.size(); i++) {
 			Sparkle s = sparkles.get(i);
 			s.update();
@@ -256,7 +238,7 @@ public class PlayState extends GameState {
 			}
 		}
 		
-		// update items
+		// tárgyak frissítése
 		for(int i = 0; i < items.size(); i++) {
 			Item item = items.get(i);
 			if(player.intersects(item)) {
@@ -273,32 +255,20 @@ public class PlayState extends GameState {
 	}
 	
 	public void draw(Graphics2D g) {
-		
-		// draw tilemap
+
 		tileMap.draw(g);
-		
-		// draw player
 		player.draw(g);
-		
-		// draw coins
 		for(Coin d : coins) {
 			d.draw(g);
 		}
-		
-		// draw sparkles
 		for(Sparkle s : sparkles) {
 			s.draw(g);
 		}
-		
-		// draw items
 		for(Item i : items) {
 			i.draw(g);
 		}
-		
-		// draw hud
 		hud.draw(g);
-		
-		// draw transition boxes
+
 		g.setColor(java.awt.Color.BLACK);
 		for(int i = 0; i < boxes.size(); i++) {
 			g.fill(boxes.get(i));
@@ -349,29 +319,11 @@ public class PlayState extends GameState {
 	
 	private void eventFinish() {
 		eventTick++;
-		if(eventTick == 1) {
-			boxes.clear();
-			for(int i = 0; i < 9; i++) {
-				if(i % 2 == 0) boxes.add(new Rectangle(-128, i * 16, GamePanel.SZELESSEG, 16));
-				else boxes.add(new Rectangle(128, i * 16, GamePanel.SZELESSEG, 16));
-			}
-			JukeBox.stop("music1");
-			JukeBox.play("finish");
-		}
-		if(eventTick > 1) {
-			for(int i = 0; i < boxes.size(); i++) {
-				Rectangle r = boxes.get(i);
-				if(i % 2 == 0) {
-					if(r.x < 0) r.x += 4;
-				}
-				else {
-					if(r.x > 0) r.x -= 4;
-				}
-			}
-		}
 		if(eventTick > 33) {
 			if(!JukeBox.isPlaying("finish")) {
+				JukeBox.stop("music1");
 				Data.setTime(player.getTicks());
+				blockInput=false;
 				gsm.setState(GameStateManager.GAMEOVER);
 			}
 		}

@@ -3,7 +3,7 @@
 
 package com.attila.rpgame.States;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 
 import com.attila.rpgame.Manager.Content;
 import com.attila.rpgame.Manager.GameStateManager;
@@ -23,19 +23,19 @@ public class PauseState extends GameState {
 	}
 	
 	public void draw(Graphics2D g) {
+
+		g.setColor(Color.gray);
+		g.fillRect(5,5, 119, 119);
+		g.setColor(Color.darkGray);
+		g.drawRect(5,5,119,119);
+
+		Content.drawString(g, "megallitva", 25, 30);
 		
-		Content.drawString(g, "paused", 40, 30);
+		Content.drawString(g, "nyilak", 7, 80);
+		Content.drawString(g, ":mozgas", 58, 80);
 		
-		Content.drawString(g, "arrow", 12, 76);
-		Content.drawString(g, "keys", 16, 84);
-		Content.drawString(g, ": move", 52, 80);
-		
-		Content.drawString(g, "space", 12, 96);
-		Content.drawString(g, ": action", 52, 96);
-		
-		Content.drawString(g, "F1:", 36, 112);
-		Content.drawString(g, "return", 68, 108);
-		Content.drawString(g, "to menu", 68, 116);
+		Content.drawString(g, "szokoz", 7, 96);
+		Content.drawString(g, ":hasznal", 58, 96);
 		
 	}
 	public void handleInput() {

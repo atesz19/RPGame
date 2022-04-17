@@ -10,8 +10,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class Content {
-	
-	public static BufferedImage[][] MENUBG = load("/HUD/menuscreen.gif", 128, 144);
+
 	public static BufferedImage[][] BAR = load("/HUD/bar.gif", 128, 16);
 	
 	public static BufferedImage[][] PLAYER = load("/Sprites/playersprites.gif", 16, 16);

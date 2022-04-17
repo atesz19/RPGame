@@ -35,18 +35,19 @@ public class OverState extends GameState {
 		ticks = Data.getTime();
 		if(ticks < 3600) rank = 1;
 		else if(ticks < 5400) rank = 2;
-		else if(ticks < 7200) rank = 3;
-		else rank = 4;
+		else rank = 3;
 	}
 	
-	public void update() {}
+	public void update() {
+		handleInput();
+	}
 	
 	public void draw(Graphics2D g) {
 		
 		g.setColor(color);
 		g.fillRect(0, 0, GamePanel.SZELESSEG, GamePanel.MAGASSAG);
 		
-		Content.drawString(g, "finish time", 20, 36);
+		Content.drawString(g, "jatekido", 30, 36);
 		
 		int minutes = (int) (ticks / 1800);
 		int seconds = (int) ((ticks / 30) % 60);
@@ -59,20 +60,20 @@ public class OverState extends GameState {
 			else Content.drawString(g, minutes + ":" + seconds, 44, 48);
 		}
 		
-		Content.drawString(g, "rank", 48, 66);
-		if(rank == 1) Content.drawString(g, "speed demon", 20, 78);
-		else if(rank == 2) Content.drawString(g, "adventurer", 24, 78);
-		else if(rank == 3) Content.drawString(g, "beginner", 32, 78);
-		else if(rank == 4) Content.drawString(g, "bumbling idiot", 8, 78);
+		Content.drawString(g, "rang", 48, 66);
+		if(rank == 1) Content.drawString(g, "profi", 44, 78);
+		else if(rank == 2) Content.drawString(g, "halado", 41, 78);
+		else if(rank == 3) Content.drawString(g, "kezdo", 44, 78);
 		
-		Content.drawString(g, "press any key", 12, 110);
+		Content.drawString(g, "Nyomj meg egy", 12, 110);
+		Content.drawString(g, "gombot a", 12, 120);
+		Content.drawString(g, "kilepeshez", 12, 130);
 		
 	}
 	
 	public void handleInput() {
-		if(Keys.isPressed(Keys.ENTER)) {
-			gsm.setState(GameStateManager.PLAY);
-			JukeBox.play("collect");
+		if(Keys.anyKeyPress()) {
+			System.exit(0);
 		}
 	}
 	
