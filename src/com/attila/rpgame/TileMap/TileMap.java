@@ -53,7 +53,7 @@ public class TileMap {
 		this.tileSize = tileSize;
 		numRowsToDraw = GamePanel.MAGAS / tileSize + 2;
 		numColsToDraw = GamePanel.SZELESSEG / tileSize + 2;
-		speed = 4;
+		speed = 5;
 	}
 	
 	public void loadTiles(String s) {

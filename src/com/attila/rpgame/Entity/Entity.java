@@ -12,13 +12,13 @@ import com.attila.rpgame.TileMap.TileMap;
 
 public abstract class Entity {
 	
-	// dimensions
+	// mérete
 	protected int width;
 	protected int height;
 	protected int cwidth;
 	protected int cheight;
 	
-	// position
+	// pozíciója
 	protected int x;
 	protected int y;
 	protected int xdest;
@@ -26,23 +26,23 @@ public abstract class Entity {
 	protected int rowTile;
 	protected int colTile;
 	
-	// movement
+	// mozgás
 	protected boolean moving;
 	protected boolean left;
 	protected boolean right;
 	protected boolean up;
 	protected boolean down;
 	
-	// attributes
+	// mozgás sebessége
 	protected int moveSpeed;
 	
-	// tilemap
+	// pálya
 	protected TileMap tileMap;
 	protected int tileSize;
 	protected int xmap;
 	protected int ymap;
 	
-	// animation
+	// animáció
 	protected Animation animation;
 	protected int currentAnimation;
 	
@@ -103,8 +103,8 @@ public abstract class Entity {
 		return new Rectangle(x, y, cwidth, cheight);
 	}
 	
-	// Returns whether or not the entity can
-	// move into the next position.
+	// Visszaadja, hogy az entitás mozoghat-e
+	// a következő pozícióba vagy nem.
 	public boolean validateNextPosition() {
 		
 		if(moving) return true;
@@ -149,7 +149,7 @@ public abstract class Entity {
 		
 	}
 	
-	// Calculates the destination coordinates.
+	// Kiszámítja a cél koordinátáit.
 	public void getNextPosition() {
 		
 		if(left && x > xdest) x -= moveSpeed;
@@ -172,7 +172,7 @@ public abstract class Entity {
 	
 	public void update() {
 		
-		// get next position
+		// következő pozíció
 		if(moving) getNextPosition();
 		
 		// check stop moving
@@ -182,12 +182,12 @@ public abstract class Entity {
 			colTile = x / tileSize;
 		}
 		
-		// update animation
+		// animációk frisítése
 		animation.update();
 		
 	}
 	
-	// Draws the entity.
+	// pálya kirajzolása
 	public void draw(Graphics2D g) {
 		setMapPosition();
 		g.drawImage(

@@ -29,7 +29,7 @@ public class Coin extends Entity {
 		
 		sprites = Content.COIN[0];
 		animation.setFrames(sprites);
-		animation.setDelay(10);
+		animation.setDelay(8);
 		
 		tileChanges = new ArrayList<int[]>();
 		

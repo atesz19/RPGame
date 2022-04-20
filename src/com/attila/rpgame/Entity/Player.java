@@ -15,7 +15,7 @@ import com.attila.rpgame.TileMap.TileMap;
 
 public class Player extends Entity {
 	
-	// sprites
+	// képkockák
 	private BufferedImage[] downSprites;
 	private BufferedImage[] leftSprites;
 	private BufferedImage[] rightSprites;
@@ -25,7 +25,7 @@ public class Player extends Entity {
 	private BufferedImage[] rightBoatSprites;
 	private BufferedImage[] upBoatSprites;
 	
-	// animation
+	// animáció
 	private final int DOWN = 0;
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
@@ -35,7 +35,7 @@ public class Player extends Entity {
 	private final int RIGHTBOAT = 6;
 	private final int UPBOAT = 7;
 	
-	// gameplay
+	// játékmenet
 	private int numCoins;
 	private int totalCoins;
 	private boolean hasBoat;
@@ -86,10 +86,10 @@ public class Player extends Entity {
 	public boolean hasBoat() { return hasBoat; }
 	public boolean hasAxe() { return hasAxe; }
 	
-	// Used to update time.
+	// idő frissítése
 	public long getTicks() { return ticks; }
 	
-	// Keyboard input. Moves the player.
+	// Billentyűzet bemenet. Mozgatja a játékost.
 	public void setDown() {
 		super.setDown();
 	}
@@ -102,10 +102,10 @@ public class Player extends Entity {
 	public void setUp() {
 		super.setUp();
 	}
-	
-	// Keyboard input.
-	// If Player has axe, dead trees in front
-	// of the Player will be chopped down.
+
+	// Billentyűzetbevitel.
+    // Ha a játékosnak fejszéje van, a kidőlt
+    // farönköket ki tudja vágni
 	public void setAction() {
 		if(hasAxe) {
 			if(currentAnimation == UP && tileMap.getIndex(rowTile - 1, colTile) == 21) {
@@ -131,7 +131,7 @@ public class Player extends Entity {
 		
 		ticks++;
 		
-		// check if on water
+		// ellenőrzi, hogy vízben van-e
 		boolean current = onWater;
 		if(tileMap.getIndex(ydest / tileSize, xdest / tileSize) == 4) {
 			onWater = true;
@@ -139,12 +139,12 @@ public class Player extends Entity {
 		else {
 			onWater = false;
 		}
-		// if going from land to water
+		// szárazföldről megy vízbe
 		if(!current && onWater) {
 			JukeBox.play("splash");
 		}
 		
-		// set animation
+		// animáció beállítása
 		if(down) {
 			if(onWater && currentAnimation != DOWNBOAT) {
 				setAnimation(DOWNBOAT, downBoatSprites, 10);
@@ -178,12 +178,12 @@ public class Player extends Entity {
 			}
 		}
 		
-		// update position
+		// pozíció frissítése
 		super.update();
 		
 	}
 	
-	// Draw Player.
+	// Játékos kirajzolása
 	public void draw(Graphics2D g) {
 		super.draw(g);
 	}
