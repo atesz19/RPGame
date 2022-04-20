@@ -63,7 +63,7 @@ public class PlayState extends GameState {
 		
 		// játékos elhelyezése
 		player.setTilePosition(17, 17);
-		player.setTotalDiamonds(coins.size());
+		player.setTotalCoins(coins.size());
 		
 		// kamera pizíció
 		sectorSize = GamePanel.SZELESSEG;
@@ -174,7 +174,7 @@ public class PlayState extends GameState {
 		handleInput();
 		
 		// eventek figyelése
-		if(player.numDiamonds() == player.getTotalDiamonds()) {
+		if(player.numCoins() == player.getTotalCoins()) {
 			eventFinish();
 		}
 
@@ -207,7 +207,7 @@ public class PlayState extends GameState {
 				i--;
 
 				// összegyűjtött érmék számának növelése
-				player.collectedDiamond();
+				player.collectedCoin();
 				
 				// új effekt hozzáadása
 				Sparkle s = new Sparkle(tileMap);

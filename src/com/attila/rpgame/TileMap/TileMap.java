@@ -16,7 +16,7 @@ import com.attila.rpgame.Main.GamePanel;
 
 public class TileMap {
 	
-	// position
+	// pozíciók
 	private int x;
 	private int y;
 	private int xdest;
@@ -24,13 +24,13 @@ public class TileMap {
 	private int speed;
 	private boolean moving;
 	
-	// bounds
+	// méretek
 	private int xmin;
 	private int ymin;
 	private int xmax;
 	private int ymax;
 	
-	// map
+	// pálya
 	private int[][] map;
 	private int tileSize;
 	private int numRows;
@@ -38,12 +38,12 @@ public class TileMap {
 	private int width;
 	private int height;
 	
-	// tileset
+	// négyzetek
 	private BufferedImage tileset;
 	private int numTilesAcross;
 	private Tile[][] tiles;
 	
-	// drawing
+	// rajzolás
 	private int rowOffset;
 	private int colOffset;
 	private int numRowsToDraw;

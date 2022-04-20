@@ -16,59 +16,33 @@ import com.attila.rpgame.Main.GamePanel;
 import com.attila.rpgame.Manager.Content;
 
 public class Hud {
-	
-	private int yoffset;
-	
-	private BufferedImage bar;
-	private BufferedImage diamond;
-	private BufferedImage boat;
-	private BufferedImage axe;
-	
+
 	private Player player;
-	
-	private int numDiamonds;
-	
-	private Font font;
-	private Color textColor; 
+	private int numCoin;
 	
 	public Hud(Player p, ArrayList<Coin> d) {
-		
 		player = p;
-		numDiamonds = d.size();
-		yoffset = GamePanel.MAGAS;
-		
-		bar = Content.BAR[0][0];
-		diamond = Content.DIAMOND[0][0];
-		boat = Content.ITEMS[0][0];
-		axe = Content.ITEMS[0][1];
-		
-		font = new Font("Arial", Font.PLAIN, 10);
-		textColor = new Color(47, 64, 126);
-		
+		numCoin = d.size();
 	}
 	
 	public void draw(Graphics2D g) {
+		// alsó sáv kirajzolása
+		g.drawImage(Content.BAR[0][0], 0, GamePanel.MAGAS, null);
 		
-		// draw hud
-		g.drawImage(bar, 0, yoffset, null);
+		// érme jelzo sav kirajzolása
+		g.setColor(Color.yellow);
+		g.fillRect(8, GamePanel.MAGAS + 6, (int)(28.0 * player.numCoins() / numCoin), 4);
 		
-		// draw diamond bar
-		g.setColor(textColor);
-		g.fillRect(8, yoffset + 6, (int)(28.0 * player.numDiamonds() / numDiamonds), 4);
+		// érmék számának kirajzolása
+		String s = player.numCoins() + "/" + numCoin;
+		Content.drawString(g, s, 60, GamePanel.MAGAS + 4);
+		g.drawImage(Content.COIN[0][0], 44, GamePanel.MAGAS, null);
 		
-		// draw diamond amount
-		g.setColor(textColor);
-		g.setFont(font);
-		String s = player.numDiamonds() + "/" + numDiamonds;
-		Content.drawString(g, s, 40, yoffset + 3);
-		if(player.numDiamonds() >= 10) g.drawImage(diamond, 80, yoffset, null);
-		else g.drawImage(diamond, 72, yoffset, null);
+		// tárgyak kirajzolása
+		if(player.hasBoat()) g.drawImage(Content.ITEMS[0][0], 100, GamePanel.MAGAS, null);
+		if(player.hasAxe()) g.drawImage(Content.ITEMS[0][1], 112, GamePanel.MAGAS, null);
 		
-		// draw items
-		if(player.hasBoat()) g.drawImage(boat, 100, yoffset, null);
-		if(player.hasAxe()) g.drawImage(axe, 112, yoffset, null);
-		
-		// draw time
+		// idő kirajzolása
 		int minutes = (int) (player.getTicks() / 1800);
 		int seconds = (int) ((player.getTicks() / 30) % 60);
 		if(minutes < 10) {
@@ -79,9 +53,6 @@ public class Hud {
 			if(seconds < 10) Content.drawString(g, minutes + ":0" + seconds, 85, 3);
 			else Content.drawString(g, minutes + ":" + seconds, 85, 3);
 		}
-		
-		
-		
 	}
 	
 }

@@ -18,15 +18,13 @@ public class JukeBox {
 	
 	private static HashMap<String, Clip> clips;
 	private static int gap;
-	
-	// Creates new clips HashMap.
+
 	public static void init() {
 		clips = new HashMap<String, Clip>();
 		gap = 0;
 	}
 	
-	// Loads up audio located at path "s" and stores
-	// it in the HashMap with key "n".
+	// Betölti az "s" útvonalon található hangot, és eltárolja a HashMapben "n" névvel.
 	public static void load(String s, String n) {
 		if(clips.get(n) != null) return;
 		Clip clip;

@@ -26,7 +26,6 @@ public class Keys {
 	public static int SPACE = 4;
 	public static int ENTER = 5;
 	public static int ESCAPE = 6;
-	public static int F1 = 7;
 	
 	public static void keySet(int i, boolean b) {
 		if(i == KeyEvent.VK_UP) keyState[UP] = b;
@@ -36,7 +35,6 @@ public class Keys {
 		else if(i == KeyEvent.VK_SPACE) keyState[SPACE] = b;
 		else if(i == KeyEvent.VK_ENTER) keyState[ENTER] = b;
 		else if(i == KeyEvent.VK_ESCAPE) keyState[ESCAPE] = b;
-		else if(i == KeyEvent.VK_F1) keyState[F1] = b;
 	}
 	
 	public static void update() {

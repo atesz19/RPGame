@@ -36,8 +36,8 @@ public class Player extends Entity {
 	private final int UPBOAT = 7;
 	
 	// gameplay
-	private int numDiamonds;
-	private int totalDiamonds;
+	private int numCoins;
+	private int totalCoins;
 	private boolean hasBoat;
 	private boolean hasAxe;
 	private boolean onWater;
@@ -54,7 +54,7 @@ public class Player extends Entity {
 		
 		moveSpeed = 2;
 		
-		numDiamonds = 0;
+		numCoins = 0;
 		
 		downSprites = Content.PLAYER[0];
 		leftSprites = Content.PLAYER[1];
@@ -76,10 +76,10 @@ public class Player extends Entity {
 		animation.setDelay(d);
 	}
 	
-	public void collectedDiamond() { numDiamonds++; }
-	public int numDiamonds() { return numDiamonds; }
-	public int getTotalDiamonds() { return totalDiamonds; }
-	public void setTotalDiamonds(int i) { totalDiamonds = i; }
+	public void collectedCoin() { numCoins++; }
+	public int numCoins() { return numCoins; }
+	public int getTotalCoins() { return totalCoins; }
+	public void setTotalCoins(int i) { totalCoins = i; }
 	
 	public void gotBoat() { hasBoat = true; tileMap.replace(22, 4); }
 	public void gotAxe() { hasAxe = true; }

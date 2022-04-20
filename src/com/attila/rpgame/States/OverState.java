@@ -20,21 +20,16 @@ import com.attila.rpgame.Manager.JukeBox;
 import com.attila.rpgame.Manager.Keys;
 
 public class OverState extends GameState {
-	
-	private Color color;
-	
+
 	private int rank;
-	private long ticks;
 	
 	public OverState(GameStateManager gsm) {
 		super(gsm);
 	}
 	
 	public void init() {
-		color = new Color(164, 198, 222);
-		ticks = Data.getTime();
-		if(ticks < 3600) rank = 1;
-		else if(ticks < 5400) rank = 2;
+		if(Data.getTime() < 3600) rank = 1;
+		else if(Data.getTime() < 5400) rank = 2;
 		else rank = 3;
 	}
 	
@@ -43,14 +38,13 @@ public class OverState extends GameState {
 	}
 	
 	public void draw(Graphics2D g) {
-		
-		g.setColor(color);
+		g.setColor(new Color(164, 198, 222));
 		g.fillRect(0, 0, GamePanel.SZELESSEG, GamePanel.MAGASSAG);
 		
 		Content.drawString(g, "jatekido", 30, 36);
 		
-		int minutes = (int) (ticks / 1800);
-		int seconds = (int) ((ticks / 30) % 60);
+		int minutes = (int) (Data.getTime() / 1800);
+		int seconds = (int) ((Data.getTime() / 30) % 60);
 		if(minutes < 10) {
 			if(seconds < 10) Content.drawString(g, "0" + minutes + ":0" + seconds, 44, 48);
 			else Content.drawString(g, "0" + minutes + ":" + seconds, 44, 48);
@@ -68,7 +62,6 @@ public class OverState extends GameState {
 		Content.drawString(g, "Nyomj meg egy", 12, 110);
 		Content.drawString(g, "gombot a", 12, 120);
 		Content.drawString(g, "kilepeshez", 12, 130);
-		
 	}
 	
 	public void handleInput() {

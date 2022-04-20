@@ -36,7 +36,6 @@ public class GameStateManager {
 		
 		gameStates = new GameState[NUM_STATES];
 		setState(PLAY);
-		
 	}
 	
 	public void setState(int i) {
