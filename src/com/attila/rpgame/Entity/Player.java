@@ -16,27 +16,23 @@ import com.attila.rpgame.TileMap.TileMap;
 public class Player extends Entity {
 	
 	// képkockák
-	private BufferedImage[] downSprites;
-	private BufferedImage[] leftSprites;
-	private BufferedImage[] rightSprites;
-	private BufferedImage[] upSprites;
-	private BufferedImage[] downBoatSprites;
-	private BufferedImage[] leftBoatSprites;
-	private BufferedImage[] rightBoatSprites;
-	private BufferedImage[] upBoatSprites;
+	private final BufferedImage[] downSprites = Content.PLAYER[0];
+	private final BufferedImage[] leftSprites = Content.PLAYER[1];
+	private final BufferedImage[] rightSprites = Content.PLAYER[2];
+	private final BufferedImage[] upSprites = Content.PLAYER[3];
+	private final BufferedImage[] downBoatSprites = Content.PLAYER[4];
+	private final BufferedImage[] leftBoatSprites = Content.PLAYER[5];
+	private final BufferedImage[] rightBoatSprites = Content.PLAYER[6];
+	private final BufferedImage[] upBoatSprites = Content.PLAYER[7];
 	
 	// animáció
 	private final int DOWN = 0;
 	private final int LEFT = 1;
 	private final int RIGHT = 2;
 	private final int UP = 3;
-	private final int DOWNBOAT = 4;
-	private final int LEFTBOAT = 5;
-	private final int RIGHTBOAT = 6;
-	private final int UPBOAT = 7;
-	
+
 	// játékmenet
-	private int numCoins;
+	private int numCoins = 0;
 	private int totalCoins;
 	private boolean hasBoat;
 	private boolean hasAxe;
@@ -44,36 +40,20 @@ public class Player extends Entity {
 	private long ticks;
 	
 	public Player(TileMap tm) {
-		
 		super(tm);
-		
 		width = 16;
 		height = 16;
 		cwidth = 12;
 		cheight = 12;
-		
 		moveSpeed = 2;
-		
-		numCoins = 0;
-		
-		downSprites = Content.PLAYER[0];
-		leftSprites = Content.PLAYER[1];
-		rightSprites = Content.PLAYER[2];
-		upSprites = Content.PLAYER[3];
-		downBoatSprites = Content.PLAYER[4];
-		leftBoatSprites = Content.PLAYER[5];
-		rightBoatSprites = Content.PLAYER[6];
-		upBoatSprites = Content.PLAYER[7];
-		
+
 		animation.setFrames(downSprites);
 		animation.setDelay(10);
-		
 	}
 	
-	private void setAnimation(int i, BufferedImage[] bi, int d) {
+	private void setAnimation(int i, BufferedImage[] bi) {
 		currentAnimation = i;
 		animation.setFrames(bi);
-		animation.setDelay(d);
 	}
 	
 	public void collectedCoin() { numCoins++; }
@@ -133,12 +113,7 @@ public class Player extends Entity {
 		
 		// ellenőrzi, hogy vízben van-e
 		boolean current = onWater;
-		if(tileMap.getIndex(ydest / tileSize, xdest / tileSize) == 4) {
-			onWater = true;
-		}
-		else {
-			onWater = false;
-		}
+		onWater = tileMap.getIndex(ydest / tileSize, xdest / tileSize) == 4;
 		// szárazföldről megy vízbe
 		if(!current && onWater) {
 			JukeBox.play("splash");
@@ -146,35 +121,39 @@ public class Player extends Entity {
 		
 		// animáció beállítása
 		if(down) {
+			int DOWNBOAT = 4;
 			if(onWater && currentAnimation != DOWNBOAT) {
-				setAnimation(DOWNBOAT, downBoatSprites, 10);
+				setAnimation(DOWNBOAT, downBoatSprites);
 			}
 			else if(!onWater && currentAnimation != DOWN) {
-				setAnimation(DOWN, downSprites, 10);
+				setAnimation(DOWN, downSprites);
 			}
 		}
 		if(left) {
+			int LEFTBOAT = 5;
 			if(onWater && currentAnimation != LEFTBOAT) {
-				setAnimation(LEFTBOAT, leftBoatSprites, 10);
+				setAnimation(LEFTBOAT, leftBoatSprites);
 			}
 			else if(!onWater && currentAnimation != LEFT) {
-				setAnimation(LEFT, leftSprites, 10);
+				setAnimation(LEFT, leftSprites);
 			}
 		}
 		if(right) {
+			int RIGHTBOAT = 6;
 			if(onWater && currentAnimation != RIGHTBOAT) {
-				setAnimation(RIGHTBOAT, rightBoatSprites, 10);
+				setAnimation(RIGHTBOAT, rightBoatSprites);
 			}
 			else if(!onWater && currentAnimation != RIGHT) {
-				setAnimation(RIGHT, rightSprites, 10);
+				setAnimation(RIGHT, rightSprites);
 			}
 		}
 		if(up) {
+			int UPBOAT = 7;
 			if(onWater && currentAnimation != UPBOAT) {
-				setAnimation(UPBOAT, upBoatSprites, 10);
+				setAnimation(UPBOAT, upBoatSprites);
 			}
 			else if(!onWater && currentAnimation != UP) {
-				setAnimation(UP, upSprites, 10);
+				setAnimation(UP, upSprites);
 			}
 		}
 		

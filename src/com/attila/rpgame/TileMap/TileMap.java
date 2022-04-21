@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 import javax.imageio.ImageIO;
 
@@ -21,7 +22,7 @@ public class TileMap {
 	private int y;
 	private int xdest;
 	private int ydest;
-	private int speed;
+	private final int speed = 5;
 	private boolean moving;
 	
 	// méretek
@@ -32,36 +33,28 @@ public class TileMap {
 	
 	// pálya
 	private int[][] map;
-	private int tileSize;
+	private final int tileSize;
 	private int numRows;
 	private int numCols;
-	private int width;
-	private int height;
-	
-	// négyzetek
-	private BufferedImage tileset;
 	private int numTilesAcross;
 	private Tile[][] tiles;
 	
 	// rajzolás
 	private int rowOffset;
 	private int colOffset;
-	private int numRowsToDraw;
-	private int numColsToDraw;
+	private final int numRowsToDraw;
+	private final int numColsToDraw;
 	
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
 		numRowsToDraw = GamePanel.MAGAS / tileSize + 2;
 		numColsToDraw = GamePanel.SZELESSEG / tileSize + 2;
-		speed = 5;
 	}
 	
 	public void loadTiles(String s) {
-		
 		try {
-
-			tileset = ImageIO.read(
-				getClass().getResourceAsStream(s)
+			BufferedImage tileset = ImageIO.read(
+					Objects.requireNonNull(getClass().getResourceAsStream(s))
 			);
 			numTilesAcross = tileset.getWidth() / tileSize;
 			tiles = new Tile[2][numTilesAcross];
@@ -83,12 +76,10 @@ public class TileMap {
 						);
 				tiles[1][col] = new Tile(subimage, Tile.BLOCKED);
 			}
-			
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void loadMap(String s) {
@@ -96,6 +87,7 @@ public class TileMap {
 		try {
 			
 			InputStream in = getClass().getResourceAsStream(s);
+			assert in != null;
 			BufferedReader br = new BufferedReader(
 						new InputStreamReader(in)
 					);
@@ -103,13 +95,11 @@ public class TileMap {
 			numCols = Integer.parseInt(br.readLine());
 			numRows = Integer.parseInt(br.readLine());
 			map = new int[numRows][numCols];
-			width = numCols * tileSize;
-			height = numRows * tileSize;
-			
-			xmin = GamePanel.SZELESSEG - width;
+			int width = numCols * tileSize;
+			int height = numRows * tileSize;
+
 			xmin = -width;
 			xmax = 0;
-			ymin = GamePanel.MAGAS - height;
 			ymin = -height;
 			ymax = 0;
 			
@@ -132,8 +122,7 @@ public class TileMap {
 	public int getTileSize() { return tileSize; }
 	public int getx() { return x; }
 	public int gety() { return y; }
-	public int getWidth() { return width; }
-	public int getHeight() { return height; }
+
 	public int getNumRows() { return numRows; }
 	public int getNumCols() { return numCols; }
 	public int getType(int row, int col) {
@@ -204,18 +193,15 @@ public class TileMap {
 		
 		colOffset = -this.x / tileSize;
 		rowOffset = -this.y / tileSize;
-		
-		if(x != xdest || y != ydest) moving = true;
-		else moving = false;
+
+		moving = x != xdest || y != ydest;
 		
 	}
 	
 	public void draw(Graphics2D g) {
 		
 		for(int row = rowOffset; row < rowOffset + numRowsToDraw; row++) {
-		
 			if(row >= numRows) break;
-			
 			for(int col = colOffset; col < colOffset + numColsToDraw; col++) {
 				
 				if(col >= numCols) break;
@@ -231,11 +217,8 @@ public class TileMap {
 					y + row * tileSize,
 					null
 				);
-				
 			}
-			
 		}
-		
 	}
 	
 }

@@ -169,20 +169,13 @@ public abstract class Entity {
 	}
 	
 	public void update() {
-		
-		// következő pozíció
 		if(moving) getNextPosition();
-		
-		// check stop moving
 		if(x == xdest && y == ydest) {
 			left = right = up = down = moving = false;
 			rowTile = y / tileSize;
 			colTile = x / tileSize;
 		}
-		
-		// animációk frisítése
 		animation.update();
-		
 	}
 	
 	// pálya kirajzolása
